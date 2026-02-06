@@ -7,30 +7,29 @@ const cells = document.querySelectorAll(".cell");
 let player1 = "";
 let player2 = "";
 let currentPlayer = "";
-let currentSymbol = "X";
+let currentSymbol = "x";
 let board = ["", "", "", "", "", "", "", "", ""];
 
-const winningCombos = [
+const wins = [
   [0,1,2], [3,4,5], [6,7,8],
   [0,3,6], [1,4,7], [2,5,8],
   [0,4,8], [2,4,6]
 ];
 
-// Handle submit
 submitBtn.addEventListener("click", () => {
-  player1 = document.getElementById("player-1").value;
-  player2 = document.getElementById("player-2").value;
+  player1 = document.getElementById("player1").value;
+  player2 = document.getElementById("player2").value;
 
   if (!player1 || !player2) return;
 
   currentPlayer = player1;
+  currentSymbol = "x";
   message.textContent = `${currentPlayer}, you're up`;
 
   playerForm.style.display = "none";
   game.style.display = "block";
 });
 
-// Handle cell click
 cells.forEach((cell, index) => {
   cell.addEventListener("click", () => {
     if (cell.textContent !== "") return;
@@ -44,24 +43,24 @@ cells.forEach((cell, index) => {
       return;
     }
 
-    togglePlayer();
+    switchTurn();
   });
 });
 
-function togglePlayer() {
+function switchTurn() {
   if (currentPlayer === player1) {
     currentPlayer = player2;
-    currentSymbol = "O";
+    currentSymbol = "o";
   } else {
     currentPlayer = player1;
-    currentSymbol = "X";
+    currentSymbol = "x";
   }
   message.textContent = `${currentPlayer}, you're up`;
 }
 
 function checkWin() {
-  return winningCombos.some(combo =>
-    combo.every(index => board[index] === currentSymbol)
+  return wins.some(combo =>
+    combo.every(i => board[i] === currentSymbol)
   );
 }
 
